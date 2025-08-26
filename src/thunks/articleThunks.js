@@ -1,17 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
-//  http://localhost:5000   !!!!!!
+import api from "../api/api";
+
 export const getArticles = createAsyncThunk('articles/getArticles', async () => {
-    const response = await axios.get('http://localhost:5000/articles');
+    const response = await api.get('articles');
     return response.data;
 });
 
 export const getArticle = createAsyncThunk('articles/getArticle', async (id) => {
-    const response = await axios.get(`http://localhost:5000/articles/${id}`);
+    const response = await api.get(`articles/${id}`);
     return response.data;
 });
 
 export const createArticle = createAsyncThunk('articles/createArticle', async (article) => {
-    const response = await axios.post('http://localhost:5000/articles', article);
+    const response = await api.post('articles', article);
     return response.data;
 });

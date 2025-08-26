@@ -1,21 +1,13 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getArticles } from './thunks/articleThunks';
+import { Outlet } from "react-router";
 
 const App = () => {
-    const dispatch = useDispatch();
-    const articles = useSelector((state)=>state.articles);
-
-    useEffect(() => {
-        dispatch(getArticles())
-    }, [dispatch]);
-
-
-    return (
-        <div>
-            { articles.data.map(article => <h3 key={article.id}>{article.title}</h3>) }
-        </div>
-    );
-}
+  return (
+      <div>
+          <div style={{padding: "0 40px"}}>
+              <Outlet />
+          </div>
+    </div>
+  );
+};
 
 export default App;
