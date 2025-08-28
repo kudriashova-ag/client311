@@ -3,6 +3,7 @@ import App from "../App";
 import Articles from "../pages/Articles";
 import CreateArticle from "../pages/CreateArticle";
 import Login from "../pages/Login";
+import AuthRoute from "./AuthRoute";
 
 const routes = createBrowserRouter([
     {
@@ -15,7 +16,7 @@ const routes = createBrowserRouter([
             },
             {
                 path: "articles/create",
-                element: <CreateArticle />
+                element: <AuthRoute><CreateArticle /></AuthRoute> 
             },
             {
                 path: "login",

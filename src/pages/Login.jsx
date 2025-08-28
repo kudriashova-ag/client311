@@ -1,18 +1,20 @@
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input, Typography } from 'antd';
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../thunks/authThunk';
 
 const Login = () => {
+  const auth = useSelector((state) => state.auth);
+  
     const dispatch = useDispatch();
     const onFinish = (values) => {
-        //   console.log("Success:", values);
         dispatch(login(values));
     };
 
     return (
-      <div>
+      <>
         <h1>Login</h1>
+        {auth.status === "failed" && <Typography.Text type="danger">{auth.error}</Typography.Text>}
         <Form
           name="basic"
           labelCol={{ span: 8 }}
@@ -44,7 +46,7 @@ const Login = () => {
             </Button>
           </Form.Item>
         </Form>
-      </div>
+      </>
     );
 }
 

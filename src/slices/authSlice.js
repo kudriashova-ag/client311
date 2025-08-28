@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login } from "../thunks/authThunk";
-import { setToken } from "../utils/token";
+import { getAuthUser, login } from "../thunks/authThunk";
+import { getToken, removeToken, setToken } from "../utils/token";
 
 const initialState = {
     user: {},
@@ -12,6 +12,15 @@ const initialState = {
 const authSlice = createSlice({
     name: 'auth',
     initialState,
+    reducers: {
+        logout: (state) => {
+            state.user = {};
+            state.token = null;
+            state.status = 'idle';
+            state.error = null;
+            removeToken();
+        }
+    },
     extraReducers: (builder) => {
         builder
             .addCase(login.pending, (state) => {
@@ -24,10 +33,26 @@ const authSlice = createSlice({
                 setToken(action.payload.token);
             })
             .addCase(login.rejected, (state, action) => {
+                
+                state.status = "failed";
+                state.error = action.payload || action.error.message;
+            })
+        
+            .addCase(getAuthUser.pending, (state) => {
+                state.status = "loading"
+            })
+            .addCase(getAuthUser.fulfilled, (state, action) => {
+                state.status = "success";
+                state.user = action.payload;
+                state.token = getToken();
+            })
+            .addCase(getAuthUser.rejected, (state, action) => {
                 state.status = "failed";
                 state.error = action.error.message;
             })
     }
 })
+
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;
